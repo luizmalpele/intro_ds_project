@@ -13,4 +13,4 @@ Team members:
 
 Our project investigates the main characteristics of free online courses offered by Harvard and MIT.
 We will be using the data available at: 
-<https://github.com/reisanar/datasets/blob/master/harvardMIT.csv> 
+<https://raw.githubusercontent.com/reisanar/datasets/master/harvardMIT.csv> 
