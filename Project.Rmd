@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(caret)
+```
+
+
+```{r}
+onlineCourses <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/harvardMIT.csv")
+```
+
+```{r}
+onlineCourses
+```
+
+__Important information related to the data:__
+
+- The log transformed variable for course participants is approximately normal
+
+```{r}
+onlineCourses %>% 
+  mutate(PartCertifiedRatio = (Certified/Participants..Course.Content.Accessed.)*100) %>% 
+  group_by(Year) %>% 
+  summarize(AvePCRatio = mean(PartCertifiedRatio),SDevPCRatio = sd(PartCertifiedRatio))
+```
+
+
+```{r}
+ggplot(data=onlineCourses) + geom_histogram(mapping = aes(x = Median.Hours.for.Certification))
+ggplot(data=onlineCourses) + geom_histogram(mapping = aes(x = log(Participants..Course.Content.Accessed.)))
+```
+
+```{r}
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...) 
+{ 
+    usr <- par("usr"); on.exit(par(usr)) 
+    par(usr = c(0, 1, 0, 1)) 
+    r <- abs(cor(x, y)) 
+    txt <- format(c(r, 0.123456789), digits = digits)[1] 
+    txt <- paste0(prefix, txt) 
+    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt) 
+    text(0.5, 0.5, txt, cex = cex.cor * r) 
+} 
+
+pairs(onlineCourses, lower.panel = panel.smooth, upper.panel = panel.cor, 
+      gap=0, row1attop=FALSE) 
+```
+
