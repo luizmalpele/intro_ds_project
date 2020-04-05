@@ -180,7 +180,7 @@ ggplot(train_set, aes(x = unlog_forecast_lm, y = unlog_actual)) +
   geom_smooth(method = lm) +  labs(title = "Forecast versus Actuals - Simple Linear Regression (Train Data)", x = "Forecast", y = "Actual")
 ```
  
-###LASSO Regression
+##LASSO Regression
  
 ```{r}
 #10 fold CV
@@ -221,7 +221,7 @@ ggplot(train_set, aes(x = unlog_forecast_lasso, y = unlog_actual)) +
   geom_smooth(method = lm) +  labs(title = "Forecast versus Actuals - LASSO (Train Data)", x = "Forecast", y = "Actual")
 ```
 
-###Ridge Regression
+##Ridge Regression
  
 ```{r}
 ridge_model <- train(ln_completed_ratio ~ institution + subject_cs + subject_stem + hours_certification_median + bachelor_ratio + grade_above_zero,
