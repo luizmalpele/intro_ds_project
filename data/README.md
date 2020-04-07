@@ -1,6 +1,6 @@
 # Data Description: Online Courses of MIT and Harvard
 
-We use the `harvardMIT.csv` dataset available at 
+We used the `harvardMIT.csv` dataset available at 
 <https://github.com/reisanar/datasets/blob/master/harvardMIT.csv>
 
 This dataset includes data on available online courses of Harvard and of MIT between 09/05/2012 and 08/03/2016
@@ -10,5 +10,7 @@ The data fields included are: institution, course_number, launch_day, course, in
 Below we include some basic statistics for this datasets, including dimensions and range of years:
 
 Rows: 286
+
 Columns: 29
+
 Range of years: 09/05/2012-08/03/2016
