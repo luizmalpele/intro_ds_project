@@ -5,7 +5,7 @@ output: html_notebook
 
 ## Section 1. Introduction/Motivation
 
-The objective of our project is to predict the percentage of people who will complete the online courses. After identifying what variables have more explanatory power, this information is going to be useful to suggest courses to people that they will most likely complete and change the material of some of the courses to avoid people to drop it before the end.
+The objective of our project is to predict the percentage of people who will complete the online courses. After identifying what variables have more explanatory power, this information will be helpful to suggest courses that students will most likely complete and also change the material of some of the courses to help students avoid dropping out at the end.
 
 ## Section 2. Data Analysis Plan
 
