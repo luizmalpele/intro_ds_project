@@ -1,11 +1,12 @@
 ---
 title: "Project Proposal"
 output: html_notebook
+author: "Luiz Gustavo Fagundes Malpele, Cindy Nguyen, and Miguel Amaral"
 ---
 
 ## Section 1. Introduction/Motivation
 
-The objective of our project is to predict the percentage of people who will complete the online courses. After identifying what variables have more explanatory power, this information will be helpful to suggest courses that students will most likely complete and also change the material of some of the courses to help students avoid dropping out at the end.
+- The objective of our project is to predict the percentage of students who will complete online courses provided at MIT and Harvard. After identifying what variables have more explanatory power, this information will be helpful to see which courses students will most likely complete and possibly change some of the course material to help students avoid dropping out of the course.
 
 ## Section 2. Data Analysis Plan
 
@@ -18,7 +19,7 @@ The objective of our project is to predict the percentage of people who will com
 
 ## Section 3. Data Description
 
-- We use the `harvardMIT.csv` dataset available at 
+- We are utilizing the `harvardMIT.csv` dataset available at 
 <https://github.com/reisanar/datasets/blob/master/harvardMIT.csv>
 
 - We have 29 attributes and 8,294 observations.
