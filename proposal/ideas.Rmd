@@ -3,9 +3,23 @@ title: "Project Proposal"
 output: html_notebook
 ---
 
-## Section 1. Introduction
+## Section 1. Introduction/Motivation
+
+The objective of our project is to predict the percentage of people who will complete the online courses. After identifying what variables have more explanatory power, this information is going to be useful to suggest courses to people that they will most likely complete and change the material of some of the courses to avoid people to drop it before the end.
 
 ## Section 2. Data Analysis Plan
 
-## Section 3. Data
+- Online course of Harvard and MIT: The data fields included are: institution, course_number, launch_day, course, instructures, subject, year, honor_certificate, participants, half_completed, completed, half_completed_ratio, completed_ratio, completed_given_half_ratio, played_video_ratio, posted_forum_ratio, grade_above_zero, course_hours, hours_certification_median, age_median, male_ratio, female_ratio, bachelor_ratio, subject_cs, subject_gov, subject_hum, subject_stem, ln_participants, ln_completed_ratio
+
+- Data visualization on the performance of students based grade level and major. 
+
+-Data visualization on the completion of the courses based on different variables.
+
+
+## Section 3. Data Description
+
+- We use the `harvardMIT.csv` dataset available at 
+<https://github.com/reisanar/datasets/blob/master/harvardMIT.csv>
+
+- We have 29 attributes and 8,294 observations.
 
