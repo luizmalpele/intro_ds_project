@@ -25,7 +25,7 @@ author: "Luiz Gustavo Fagundes Malpele, Cindy Nguyen, and Miguel Amaral"
 - We have 29 attributes and 8,294 observations.
 
 |Field Name | Description | Data Type | Data Size| Format|
-|:----------|:---------------|:---------|:------------|
+|:----------|:---------------|:---------|:------------|:------|
 |institution|Name of institution|Factor|290|MITx|
 |course_number|Number of course|Factor|290|6.002x|
 |launch_day|Day the course started|Factor|290|09/05/2012|
