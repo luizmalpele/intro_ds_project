@@ -28,12 +28,12 @@ author: "Luiz Gustavo Fagundes Malpele, Cindy Nguyen, and Miguel Amaral"
 |:----------|:---------------|:---------|:------------|
 |institution|Name of institution|Factor|290|
 |course_number|Number of course|Factor|290|
-|launch_day|Day rhe course started|Factor|290|
+|launch_day|Day the course started|Factor|290|
 |course|Name of the course|Factor|290|
-|instructures|Name os instructors|Factor|290|
+|instructures|Name of instructors|Factor|290|
 |subject|Course area (STEM, Science, Computer Science, or Humanities)|Factor|290|
 |year|University years ranking|Integer|290|
-|honor_certificate|If the corse is part of the honor code certificate|Integer|290|
+|honor_certificate|If the course is part of the honor code certificate|Integer|290|
 |participants|Total number of enrolled students in the course|Integer|290|
 |half_completed|Number of students who completed half of the course|Integer|290|
 |completed|Number of students who completed the course|Integer|290|
