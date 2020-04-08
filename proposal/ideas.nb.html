@@ -1771,10 +1771,202 @@ summary {
 <li><p>We are utilizing the <code>harvardMIT.csv</code> dataset available at <a href="https://github.com/reisanar/datasets/blob/master/harvardMIT.csv" class="uri">https://github.com/reisanar/datasets/blob/master/harvardMIT.csv</a></p></li>
 <li><p>We have 29 attributes and 8,294 observations.</p></li>
 </ul>
+<table>
+<colgroup>
+<col width="22%"></col>
+<col width="32%"></col>
+<col width="20%"></col>
+<col width="26%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">#Field Name</th>
+<th align="left">Description</th>
+<th align="left">Data Type</th>
+<th align="left">Data Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">institution</td>
+<td align="left">Name of institution</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">course_number</td>
+<td align="left">Number of course</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">launch_day</td>
+<td align="left">Day rhe course started</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">course</td>
+<td align="left">Name of the course</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">instructures</td>
+<td align="left">Name os instructors</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">subject</td>
+<td align="left">Course area (STEM, Science, Computer Science, or Humanities)</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="left">University years ranking</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">honor_certificate</td>
+<td align="left">If the corse is part of the honor code certificate</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">participants</td>
+<td align="left">Total number of enrolled students in the course</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">half_completed</td>
+<td align="left">Number of students who completed half of the course</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">completed</td>
+<td align="left">Number of students who completed the course</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">half_completed_ratio</td>
+<td align="left">Ratio of students who completed half of the course given total number of enrolled students in the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">completed_ratio</td>
+<td align="left">Ratio of students who completed the course given total number of enrolled students in the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">completed_given_half_ratio</td>
+<td align="left">Ratio of students who completed the course given students who completed half of the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">played_video_ratio</td>
+<td align="left">Percentage of students who played the class videos</td>
+<td align="left">Factor</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">posted_forum_ratio</td>
+<td align="left">Percentage of students who posted on the class forum</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">grade_above_zero</td>
+<td align="left">Percentage of students who scored more than zero in the class</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">course_hours</td>
+<td align="left">Total number of hours of the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">hours_certification_median</td>
+<td align="left">Median number of hours it takes to get the certification</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">age_median</td>
+<td align="left">Median age of students who took the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">male_ratio</td>
+<td align="left">Percentage of male students given the total number of participants</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">female_ratio</td>
+<td align="left">Percentage of female students given the total number of participants</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">bachelor_ratio</td>
+<td align="left">Percentage of students who has a bachelor degree</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">subject_cs</td>
+<td align="left">Course in the Computer Science study area</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">subject_gov</td>
+<td align="left">Course in the Government, Health, and Social Science study area</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">subject_hum</td>
+<td align="left">Course in the Humanities, History, Design, Religion, and Educatione study area</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">subject_stem</td>
+<td align="left">Course in the Science, Technology, Engineering, and Mathematics study area</td>
+<td align="left">Integer</td>
+<td align="left">290</td>
+</tr>
+<tr class="even">
+<td align="left">ln_participants</td>
+<td align="left">Natural logarithm of the total number of participants in the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+<tr class="odd">
+<td align="left">ln_completed_ratio</td>
+<td align="left">Natural logarithm of the ratio of students who completed the course given total number of enrolled students in the course</td>
+<td align="left">Double</td>
+<td align="left">290</td>
+</tr>
+</tbody>
+</table>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlByb2plY3QgUHJvcG9zYWwiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCmF1dGhvcjogIkx1aXogR3VzdGF2byBGYWd1bmRlcyBNYWxwZWxlLCBDaW5keSBOZ3V5ZW4sIGFuZCBNaWd1ZWwgQW1hcmFsIg0KLS0tDQoNCiMjIFNlY3Rpb24gMS4gSW50cm9kdWN0aW9uL01vdGl2YXRpb24NCg0KLSBUaGUgb2JqZWN0aXZlIG9mIG91ciBwcm9qZWN0IGlzIHRvIHByZWRpY3QgdGhlIHBlcmNlbnRhZ2Ugb2Ygc3R1ZGVudHMgd2hvIHdpbGwgY29tcGxldGUgb25saW5lIGNvdXJzZXMgcHJvdmlkZWQgYXQgTUlUIGFuZCBIYXJ2YXJkLiBBZnRlciBpZGVudGlmeWluZyB3aGF0IHZhcmlhYmxlcyBoYXZlIG1vcmUgZXhwbGFuYXRvcnkgcG93ZXIsIHRoaXMgaW5mb3JtYXRpb24gd2lsbCBiZSBoZWxwZnVsIHRvIHNlZSB3aGljaCBjb3Vyc2VzIHN0dWRlbnRzIHdpbGwgbW9zdCBsaWtlbHkgY29tcGxldGUgYW5kIHBvc3NpYmx5IGNoYW5nZSBzb21lIG9mIHRoZSBjb3Vyc2UgbWF0ZXJpYWwgdG8gaGVscCBzdHVkZW50cyBhdm9pZCBkcm9wcGluZyBvdXQgb2YgdGhlIGNvdXJzZS4NCg0KIyMgU2VjdGlvbiAyLiBEYXRhIEFuYWx5c2lzIFBsYW4NCg0KLSBPbmxpbmUgY291cnNlcyBvZiBIYXJ2YXJkIGFuZCBNSVQ6IFRoZSBkYXRhIGZpZWxkcyBpbmNsdWRlZCBhcmU6IGluc3RpdHV0aW9uLCBjb3Vyc2VfbnVtYmVyLCBsYXVuY2hfZGF5LCBjb3Vyc2UsIGluc3RydWN0dXJlcywgc3ViamVjdCwgeWVhciwgaG9ub3JfY2VydGlmaWNhdGUsIHBhcnRpY2lwYW50cywgaGFsZl9jb21wbGV0ZWQsIGNvbXBsZXRlZCwgaGFsZl9jb21wbGV0ZWRfcmF0aW8sIGNvbXBsZXRlZF9yYXRpbywgY29tcGxldGVkX2dpdmVuX2hhbGZfcmF0aW8sIHBsYXllZF92aWRlb19yYXRpbywgcG9zdGVkX2ZvcnVtX3JhdGlvLCBncmFkZV9hYm92ZV96ZXJvLCBjb3Vyc2VfaG91cnMsIGhvdXJzX2NlcnRpZmljYXRpb25fbWVkaWFuLCBhZ2VfbWVkaWFuLCBtYWxlX3JhdGlvLCBmZW1hbGVfcmF0aW8sIGJhY2hlbG9yX3JhdGlvLCBzdWJqZWN0X2NzLCBzdWJqZWN0X2dvdiwgc3ViamVjdF9odW0sIHN1YmplY3Rfc3RlbSwgbG5fcGFydGljaXBhbnRzLCBsbl9jb21wbGV0ZWRfcmF0aW8NCg0KLSBEYXRhIHZpc3VhbGl6YXRpb24gb24gdGhlIHBlcmZvcm1hbmNlIG9mIHN0dWRlbnRzIGJhc2VkIG9uIGdyYWRlIGxldmVsIGFuZCBtYWpvci4gDQoNCi0gRGF0YSB2aXN1YWxpemF0aW9uIG9uIHRoZSBjb21wbGV0aW9uIG9mIHRoZSBjb3Vyc2VzIGJhc2VkIG9uIHRoZSBhdmFpbGFibGUgYXR0cmlidXRlcy4NCg0KDQojIyBTZWN0aW9uIDMuIERhdGEgRGVzY3JpcHRpb24NCg0KLSBXZSBhcmUgdXRpbGl6aW5nIHRoZSBgaGFydmFyZE1JVC5jc3ZgIGRhdGFzZXQgYXZhaWxhYmxlIGF0IA0KPGh0dHBzOi8vZ2l0aHViLmNvbS9yZWlzYW5hci9kYXRhc2V0cy9ibG9iL21hc3Rlci9oYXJ2YXJkTUlULmNzdj4NCg0KLSBXZSBoYXZlIDI5IGF0dHJpYnV0ZXMgYW5kIDgsMjk0IG9ic2VydmF0aW9ucy4NCg0K</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJvamVjdCBQcm9wb3NhbCIKb3V0cHV0OiBodG1sX25vdGVib29rCmF1dGhvcjogIkx1aXogR3VzdGF2byBGYWd1bmRlcyBNYWxwZWxlLCBDaW5keSBOZ3V5ZW4sIGFuZCBNaWd1ZWwgQW1hcmFsIgotLS0KCiMjIFNlY3Rpb24gMS4gSW50cm9kdWN0aW9uL01vdGl2YXRpb24KCi0gVGhlIG9iamVjdGl2ZSBvZiBvdXIgcHJvamVjdCBpcyB0byBwcmVkaWN0IHRoZSBwZXJjZW50YWdlIG9mIHN0dWRlbnRzIHdobyB3aWxsIGNvbXBsZXRlIG9ubGluZSBjb3Vyc2VzIHByb3ZpZGVkIGF0IE1JVCBhbmQgSGFydmFyZC4gQWZ0ZXIgaWRlbnRpZnlpbmcgd2hhdCB2YXJpYWJsZXMgaGF2ZSBtb3JlIGV4cGxhbmF0b3J5IHBvd2VyLCB0aGlzIGluZm9ybWF0aW9uIHdpbGwgYmUgaGVscGZ1bCB0byBzZWUgd2hpY2ggY291cnNlcyBzdHVkZW50cyB3aWxsIG1vc3QgbGlrZWx5IGNvbXBsZXRlIGFuZCBwb3NzaWJseSBjaGFuZ2Ugc29tZSBvZiB0aGUgY291cnNlIG1hdGVyaWFsIHRvIGhlbHAgc3R1ZGVudHMgYXZvaWQgZHJvcHBpbmcgb3V0IG9mIHRoZSBjb3Vyc2UuCgojIyBTZWN0aW9uIDIuIERhdGEgQW5hbHlzaXMgUGxhbgoKLSBPbmxpbmUgY291cnNlcyBvZiBIYXJ2YXJkIGFuZCBNSVQ6IFRoZSBkYXRhIGZpZWxkcyBpbmNsdWRlZCBhcmU6IGluc3RpdHV0aW9uLCBjb3Vyc2VfbnVtYmVyLCBsYXVuY2hfZGF5LCBjb3Vyc2UsIGluc3RydWN0dXJlcywgc3ViamVjdCwgeWVhciwgaG9ub3JfY2VydGlmaWNhdGUsIHBhcnRpY2lwYW50cywgaGFsZl9jb21wbGV0ZWQsIGNvbXBsZXRlZCwgaGFsZl9jb21wbGV0ZWRfcmF0aW8sIGNvbXBsZXRlZF9yYXRpbywgY29tcGxldGVkX2dpdmVuX2hhbGZfcmF0aW8sIHBsYXllZF92aWRlb19yYXRpbywgcG9zdGVkX2ZvcnVtX3JhdGlvLCBncmFkZV9hYm92ZV96ZXJvLCBjb3Vyc2VfaG91cnMsIGhvdXJzX2NlcnRpZmljYXRpb25fbWVkaWFuLCBhZ2VfbWVkaWFuLCBtYWxlX3JhdGlvLCBmZW1hbGVfcmF0aW8sIGJhY2hlbG9yX3JhdGlvLCBzdWJqZWN0X2NzLCBzdWJqZWN0X2dvdiwgc3ViamVjdF9odW0sIHN1YmplY3Rfc3RlbSwgbG5fcGFydGljaXBhbnRzLCBsbl9jb21wbGV0ZWRfcmF0aW8KCi0gRGF0YSB2aXN1YWxpemF0aW9uIG9uIHRoZSBwZXJmb3JtYW5jZSBvZiBzdHVkZW50cyBiYXNlZCBvbiBncmFkZSBsZXZlbCBhbmQgbWFqb3IuIAoKLSBEYXRhIHZpc3VhbGl6YXRpb24gb24gdGhlIGNvbXBsZXRpb24gb2YgdGhlIGNvdXJzZXMgYmFzZWQgb24gdGhlIGF2YWlsYWJsZSBhdHRyaWJ1dGVzLgoKCiMjIFNlY3Rpb24gMy4gRGF0YSBEZXNjcmlwdGlvbgoKLSBXZSBhcmUgdXRpbGl6aW5nIHRoZSBgaGFydmFyZE1JVC5jc3ZgIGRhdGFzZXQgYXZhaWxhYmxlIGF0IAo8aHR0cHM6Ly9naXRodWIuY29tL3JlaXNhbmFyL2RhdGFzZXRzL2Jsb2IvbWFzdGVyL2hhcnZhcmRNSVQuY3N2PgoKLSBXZSBoYXZlIDI5IGF0dHJpYnV0ZXMgYW5kIDgsMjk0IG9ic2VydmF0aW9ucy4KCnwjRmllbGQgTmFtZSB8IERlc2NyaXB0aW9uIHwgRGF0YSBUeXBlIHwgRGF0YSBTaXplfAp8Oi0tLS0tLS0tLS18Oi0tLS0tLS0tLS0tLS0tLXw6LS0tLS0tLS0tfDotLS0tLS0tLS0tLS18CnxpbnN0aXR1dGlvbnxOYW1lIG9mIGluc3RpdHV0aW9ufEZhY3RvcnwyOTB8Cnxjb3Vyc2VfbnVtYmVyfE51bWJlciBvZiBjb3Vyc2V8RmFjdG9yfDI5MHwKfGxhdW5jaF9kYXl8RGF5IHJoZSBjb3Vyc2Ugc3RhcnRlZHxGYWN0b3J8MjkwfAp8Y291cnNlfE5hbWUgb2YgdGhlIGNvdXJzZXxGYWN0b3J8MjkwfAp8aW5zdHJ1Y3R1cmVzfE5hbWUgb3MgaW5zdHJ1Y3RvcnN8RmFjdG9yfDI5MHwKfHN1YmplY3R8Q291cnNlIGFyZWEgKFNURU0sIFNjaWVuY2UsIENvbXB1dGVyIFNjaWVuY2UsIG9yIEh1bWFuaXRpZXMpfEZhY3RvcnwyOTB8Cnx5ZWFyfFVuaXZlcnNpdHkgeWVhcnMgcmFua2luZ3xJbnRlZ2VyfDI5MHwKfGhvbm9yX2NlcnRpZmljYXRlfElmIHRoZSBjb3JzZSBpcyBwYXJ0IG9mIHRoZSBob25vciBjb2RlIGNlcnRpZmljYXRlfEludGVnZXJ8MjkwfAp8cGFydGljaXBhbnRzfFRvdGFsIG51bWJlciBvZiBlbnJvbGxlZCBzdHVkZW50cyBpbiB0aGUgY291cnNlfEludGVnZXJ8MjkwfAp8aGFsZl9jb21wbGV0ZWR8TnVtYmVyIG9mIHN0dWRlbnRzIHdobyBjb21wbGV0ZWQgaGFsZiBvZiB0aGUgY291cnNlfEludGVnZXJ8MjkwfAp8Y29tcGxldGVkfE51bWJlciBvZiBzdHVkZW50cyB3aG8gY29tcGxldGVkIHRoZSBjb3Vyc2V8SW50ZWdlcnwyOTB8CnxoYWxmX2NvbXBsZXRlZF9yYXRpb3wgUmF0aW8gb2Ygc3R1ZGVudHMgd2hvIGNvbXBsZXRlZCBoYWxmIG9mIHRoZSBjb3Vyc2UgZ2l2ZW4gdG90YWwgbnVtYmVyIG9mIGVucm9sbGVkIHN0dWRlbnRzIGluIHRoZSBjb3Vyc2V8RG91YmxlfDI5MHwKfGNvbXBsZXRlZF9yYXRpb3xSYXRpbyBvZiBzdHVkZW50cyB3aG8gY29tcGxldGVkIHRoZSBjb3Vyc2UgZ2l2ZW4gdG90YWwgbnVtYmVyIG9mIGVucm9sbGVkIHN0dWRlbnRzIGluIHRoZSBjb3Vyc2V8RG91YmxlfDI5MHwKfGNvbXBsZXRlZF9naXZlbl9oYWxmX3JhdGlvfFJhdGlvIG9mIHN0dWRlbnRzIHdobyBjb21wbGV0ZWQgdGhlIGNvdXJzZSBnaXZlbiBzdHVkZW50cyB3aG8gY29tcGxldGVkIGhhbGYgb2YgdGhlIGNvdXJzZXxEb3VibGV8MjkwfAp8cGxheWVkX3ZpZGVvX3JhdGlvfFBlcmNlbnRhZ2Ugb2Ygc3R1ZGVudHMgd2hvIHBsYXllZCB0aGUgY2xhc3MgdmlkZW9zfEZhY3RvcnwyOTB8Cnxwb3N0ZWRfZm9ydW1fcmF0aW98UGVyY2VudGFnZSBvZiBzdHVkZW50cyB3aG8gcG9zdGVkIG9uIHRoZSBjbGFzcyBmb3J1bXxEb3VibGV8MjkwfAp8Z3JhZGVfYWJvdmVfemVyb3xQZXJjZW50YWdlIG9mIHN0dWRlbnRzIHdobyBzY29yZWQgbW9yZSB0aGFuIHplcm8gaW4gdGhlIGNsYXNzfERvdWJsZXwyOTB8Cnxjb3Vyc2VfaG91cnN8VG90YWwgbnVtYmVyIG9mIGhvdXJzIG9mIHRoZSBjb3Vyc2V8RG91YmxlfDI5MHwKfGhvdXJzX2NlcnRpZmljYXRpb25fbWVkaWFufE1lZGlhbiBudW1iZXIgb2YgaG91cnMgaXQgdGFrZXMgdG8gZ2V0IHRoZSBjZXJ0aWZpY2F0aW9ufERvdWJsZXwyOTB8CnxhZ2VfbWVkaWFufE1lZGlhbiBhZ2Ugb2Ygc3R1ZGVudHMgd2hvIHRvb2sgdGhlIGNvdXJzZXxEb3VibGV8MjkwfAp8bWFsZV9yYXRpb3xQZXJjZW50YWdlIG9mIG1hbGUgc3R1ZGVudHMgZ2l2ZW4gdGhlIHRvdGFsIG51bWJlciBvZiBwYXJ0aWNpcGFudHN8RG91YmxlfDI5MHwKfGZlbWFsZV9yYXRpb3xQZXJjZW50YWdlIG9mIGZlbWFsZSBzdHVkZW50cyBnaXZlbiB0aGUgdG90YWwgbnVtYmVyIG9mIHBhcnRpY2lwYW50c3xEb3VibGV8MjkwfAp8YmFjaGVsb3JfcmF0aW98IFBlcmNlbnRhZ2Ugb2Ygc3R1ZGVudHMgd2hvIGhhcyBhIGJhY2hlbG9yIGRlZ3JlZXxEb3VibGV8MjkwfAp8c3ViamVjdF9jc3xDb3Vyc2UgaW4gdGhlIENvbXB1dGVyIFNjaWVuY2Ugc3R1ZHkgYXJlYXxJbnRlZ2VyfDI5MHwKfHN1YmplY3RfZ292fENvdXJzZSBpbiB0aGUgR292ZXJubWVudCwgSGVhbHRoLCBhbmQgU29jaWFsIFNjaWVuY2Ugc3R1ZHkgYXJlYXxJbnRlZ2VyfDI5MHwKfHN1YmplY3RfaHVtfENvdXJzZSBpbiB0aGUgSHVtYW5pdGllcywgSGlzdG9yeSwgRGVzaWduLCBSZWxpZ2lvbiwgYW5kIEVkdWNhdGlvbmUgc3R1ZHkgYXJlYXxJbnRlZ2VyfDI5MHwKfHN1YmplY3Rfc3RlbXxDb3Vyc2UgaW4gdGhlIFNjaWVuY2UsIFRlY2hub2xvZ3ksIEVuZ2luZWVyaW5nLCBhbmQgTWF0aGVtYXRpY3Mgc3R1ZHkgYXJlYXxJbnRlZ2VyfDI5MHwKfGxuX3BhcnRpY2lwYW50c3xOYXR1cmFsIGxvZ2FyaXRobSBvZiB0aGUgdG90YWwgbnVtYmVyIG9mIHBhcnRpY2lwYW50cyBpbiB0aGUgY291cnNlfERvdWJsZXwyOTB8Cnxsbl9jb21wbGV0ZWRfcmF0aW98TmF0dXJhbCBsb2dhcml0aG0gb2YgdGhlIHJhdGlvIG9mIHN0dWRlbnRzIHdobyBjb21wbGV0ZWQgdGhlIGNvdXJzZSBnaXZlbiB0b3RhbCBudW1iZXIgb2YgZW5yb2xsZWQgc3R1ZGVudHMgaW4gdGhlIGNvdXJzZXxEb3VibGV8MjkwfAoK</div>
 
 
 
