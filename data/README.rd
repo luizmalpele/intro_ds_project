@@ -15,8 +15,8 @@ Columns: 29
 
 Range of years: 09/05/2012-08/03/2016
 
-|Field Name | Description | Data Type | Data Size| Format|
-|:----------|:---------------|:---------|:------------|:-------|
+|**Field Name**|**Description**|**Data Type**|**Data Size**|**Format**|
+|:-------------|:--------------|:------------|-------------|----------|
 |institution|Name of institution|Factor|290|MITx|
 |course_number|Number of course|Factor|290|6.002x|
 |launch_day|Day the course started|Factor|290|09/05/2012|
