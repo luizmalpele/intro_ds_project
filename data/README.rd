@@ -18,7 +18,7 @@ Range of years: 09/05/2012-08/03/2016
 |**Field Name**|**Description**|**Data Type**|**Data Size**|**Format**|
 |:-------------|:--------------|:------------|-------------|----------|
 |institution|Name of institution|Factor|290|MITx|
-|course_number|Number of course|Factor|290|6.002x|
+|course_number|Number of course|Factor|290|Random|
 |launch_day|Day the course started|Factor|290|09/05/2012|
 |course|Name of the course|Factor|290|Circuits and Electronics|
 |instructures|Name of instructors|Factor|290|Khurram Afridi|
