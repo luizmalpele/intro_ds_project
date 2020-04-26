@@ -1,11 +1,439 @@
 ---
 title: "Final Report for Intro to Data Science"
 output: html_notebook
+author: "Cindy Nguyen, Gustavo Malpele, Miguel Amaral"
 ---
 
-This is where the final project report write-up goes. 
+## 1) Introduction
+
+This project investigates the harvardMIT.csv dataset, which brings data regarding online courses of these two academical institutions. The main objective is to examine the factors that have the most significant impact on lower completion rates and to create predictive linear models that will anticipate what will be the completion rate of courses that will further be created by Harvard and MIT. After understanding what predictors that drop the average completion rate, it will be possible to change the course format and for marketing to target the population that is more likely to complete the course.
 
 
-Before you submit, make sure everything runs as expected.
+## 2) Data Dictionary
 
-You can add sections as you see fit. Make sure you have a section called "Introduction" at the beginning and a section called "Conclusion" at the end. The rest is up to you!
+|Field Name | Description | Data Type | Data Size| Format|
+|:----------|:---------------|:---------|:------------|
+|institution|Name of institution|Factor|290|MITx|
+|course_number|Number of course|Factor|290|6.002x|
+|launch_day|Day the course started|Factor|290|09/05/2012|
+|course|Name of the course|Factor|290|Circuits and Electronics|
+|instructures|Name of instructors|Factor|290|Khurram Afridi|
+|subject|Course area (STEM, Science, Computer Science, or Humanities)|Factor|290|Science, Technology, Engineering, and Mathematics|
+|year|University years ranking|Integer|290|1|
+|honor_certificate|If the course is part of the honor code certificate|Integer|290|1|
+|participants|Total number of enrolled students in the course|Integer|290|36105|
+|half_completed|Number of students who completed half of the course|Integer|290|5431|
+|completed|Number of students who completed the course|Integer|290|3003|
+|half_completed_ratio| Ratio of students who completed half of the course given total number of enrolled students in the course|Double|290|15.04|
+|completed_ratio|Ratio of students who completed the course given total number of enrolled students in the course|Double|290|8.32|
+|completed_given_half_ratio|Ratio of students who completed the course given students who completed half of the course|Double|290|54.98|
+|played_video_ratio|Percentage of students who played the class videos|Factor|290|83.2|
+|posted_forum_ratio|Percentage of students who posted on the class forum|Double|290|8.17|
+|grade_above_zero|Percentage of students who scored more than zero in the class|Double|290|28.97|
+|course_hours|Total number of hours of the course|Double|290|418.94|
+|hours_certification_median|Median number of hours it takes to get the certification|Double|290|64.45|
+|age_median|Median age of students who took the course|Double|290|26.0|
+|male_ratio|Percentage of male students given the total number of participants|Double|290|88.28|
+|female_ratio|Percentage of female students given the total number of participants|Double|290|11.72|
+|bachelor_ratio| Percentage of students who has a bachelor degree|Double|290|60.68|
+|subject_cs|Course in the Computer Science study area|Integer|290|0|
+|subject_gov|Course in the Government, Health, and Social Science study area|Integer|290|0|
+|subject_hum|Course in the Humanities, History, Design, Religion, and Educatione study area|Integer|290|0|
+|subject_stem|Course in the Science, Technology, Engineering, and Mathematics study area|Integer|290|1|
+|ln_participants|Natural logarithm of the total number of participants in the course|Double|290|10.494187	|
+|ln_completed_ratio|Natural logarithm of the ratio of students who completed the course given total number of enrolled students in the course|Double|290|2.11866225|
+
+__Important information related to the data:__
+
+- The log transformed variable for course participants is approximately normal
+- The log transformed variable for completed ratio is closer to a normal distribution than the original variable.
+
+## 3) Data Wrangling and Cleansing
+
+In order to work with the dataset to produce accurate exploratory visualizations and models, we removed any NA values from the data. for the variable _ln_completed_ratio_, we remove any infinite values and transformed them into NA values. This was because for values that were equal to 0, the values were converted to "-Inf". We also renamed most of the variables into a more readable format so that it would be easier to work with and more comprehensable. There were some variables that were log transformed to have a normally distibuted model and rid of any negative values because it would not make sense to have something like negative completion hours.
+
+```{r, echo = FALSE, fig.show='hide'}
+library(tidyverse)
+library(caret)
+library(fastDummies)
+library(leaps)
+library(cowplot)
+library(GGally)
+```
+
+```{r, echo = FALSE, fig.show='hide'}
+onlineCourses <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/harvardMIT.csv")
+```
+
+```{r, echo = FALSE, fig.show='hide'}
+onlineCourses2 <- onlineCourses %>% dummy_cols(select_columns = "Course.Subject") 
+onlineCourses2
+```
+- __Orginal Dataset with a dummy variable__
+
+```{r, echo = FALSE, fig.show='hide'}
+online_courses <- onlineCourses2 %>% rename(participants = Participants..Course.Content.Accessed., institution = Institution, course_number = Course.Number, launch_date = Launch.Date, course = Course.Title, instructors = Instructors, subject = Course.Subject, year = Year, honor_certificate = Honor.Code.Certificates, half_completed = 
+Audited....50..Course.Content.Accessed., completed = Certified, completed_ratio = X..Certified, half_completed_ratio = X..Audited, completed_given_half_ratio = X..Certified.of...50..Course.Content.Accessed, played_video_ratio = X..Played.Video, posted_forum_ratio = X..Posted.in.Forum, grade_above_zero = X..Grade.Higher.Than.Zero, course_hours = Total.Course.Hours..Thousands., hours_certification_median = Median.Hours.for.Certification, age_median = Median.Age, male_ratio = X..Male, female_ratio = X..Female, bachelor_ratio = X..Bachelor.s.Degree.or.Higher, subject_cs =  "Course.Subject_Computer Science", subject_gov = "Course.Subject_Government, Health, and Social Science", subject_hum = "Course.Subject_Humanities, History, Design, Religion, and Education", subject_stem = "Course.Subject_Science, Technology, Engineering, and Mathematics") %>%
+  mutate(ln_participants = log(participants), ln_completed_ratio = log(completed_ratio), ln_hours_certification_median = log(hours_certification_median))
+
+online_courses
+```
+- __Dataset after renaming the variables and adding log variables__
+
+
+```{r, echo = FALSE, fig.show='hide'}
+#This function was created to transform infinite values to NA values. When the log of completed_ratio column was taken, all values that were 0 were converted to "-Inf", the function willconvert them to NA and will be removed.
+
+inf_to_NA <- function(x)
+{
+    for (i in 1:ncol(x)){
+          x[,i][is.infinite(x[,i])] = NA
+    }
+    return(x)
+}
+online_courses <- inf_to_NA(online_courses)
+online_courses
+```
+- __Dataset after removing Infinite values and transforming them into NA values.__
+
+```{r, echo=FALSE}
+hist1 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = participants), alpha = 0.6, fill = "blue") +  
+  labs(title = "Variable Distribution", x = "Variable: participants", y = "Frequency")
+
+hist2 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = ln_participants), alpha = 0.6, fill = "blue") +
+  labs(title = "Log-transformed Var.", x = "Variable: ln_participants", y = "Frequency")
+
+hist3 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = completed_ratio), alpha = 0.6, fill = "red") +
+  labs(title = "Variable Distribution", x = "Variable: completed_ratio", y = "Frequency")
+
+hist4 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = ln_completed_ratio), alpha = 0.6, fill = "red") +
+  labs(title = "Log-transformed Var.", x = "Variable: ln_completed_ratio", y = "Frequency")
+
+hist5 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = hours_certification_median), alpha = 0.6, fill = "orange") +
+  labs(title = "Variable Distribution", x = "hours_certification_median", y = "Frequency")
+
+hist6 <- ggplot(data=online_courses) + 
+  geom_histogram(mapping = aes(x = ln_hours_certification_median), alpha = 0.6, fill = "orange") +
+  labs(title = "Log-transformed Var.", x = "ln_hours_certification_median", y = "Frequency")
+
+plot_grid(hist1, hist2, hist3, hist4, hist5, hist6, labels = "AUTO")
+```
+- __Log transformations of *participants*, *completed_ratio*, and *hours_certification_median*__
+
+In the six graphs, there are three variables that are being analyzed: participants, completed_ratio, and hours_certification_median. The reason why the natural logs are being taken to these three variables is because we want to have a normal distribution of the data, as shown above. In case there are any exponential values, we want to remove them by taking the natural log.  
+
+Since the objective of this project is to create a predictive linear model and the response variable is completed_ratio, it is better to model it as a log transformed variable. This provide some strategic advantages such as: 
+- $\hat{\beta_0}$ is a strictly positive y-intercept;
+- A unit change on the log is proportional to the percent change on the variable;
+- It is possible to back transform the log transformed variable by exponentiation: $e^\hat{y}$;
+- When a variable is not normally distributed (highly-skewed), log transformation helps capturing the non-linear relationship between an explanatory variable and the response variable.
+For the reasons mentioned above _participant, completed_ratio_ and _hours_certification_median_ were log-transformed, and the skewness aspect of the variable was reduced.
+
+
+```{r, echo=FALSE}
+#calculating the average and standard deviation of completed ratio
+online_courses %>% 
+  group_by(year) %>% 
+  summarize(average_certified = mean(completed_ratio),sd_certified_ratio = sd(completed_ratio))
+```
+- __Calculating the average and standard deviation of completed ratio__
+
+```{r,echo=FALSE}
+online_courses_shrinked <- online_courses %>% 
+  select(ln_completed_ratio, year, ln_participants, grade_above_zero, bachelor_ratio, ln_hours_certification_median)
+```
+
+
+## 4) Explanatory Data Analysis (Graphs)
+
+```{r, echo=FALSE}
+ggpairs(online_courses_shrinked)
+```
+This correlation pannel shows that the response _ln_completed_ratio_ has a person's correlation r of 0.635 wil _grade_above_zero_, 0.409 with _bachelor_ratio_, and -0.441 with _ln_hours_certification_median_. This fact show that these three variables are strong candidates to be expanatory variables for the prediction of _completion ratio_. On the other hand, both _year_, and _ln_participants_ have correlation with the response, they will be tested for modeling, but will not probably be used as predictors.
+
+```{r, echo=FALSE}
+institution=rep(c("HarvardX","MITx"),each=20)
+
+box1 <- online_courses %>% 
+  gather(subject_cs, subject_gov, subject_hum, subject_stem, key = "subject", value = "boolean_auxiliar") %>% 
+  filter(boolean_auxiliar == 1) %>% 
+  ggplot() + 
+  geom_boxplot(aes(x=subject, y=completed_ratio, fill= institution), alpha = 0.6) + 
+  labs(
+    title = "Subject versus Course Completion Ratio", 
+    x = "Subject", 
+    y = "Course Completion Ratio", 
+    fill = "Institution") + 
+  scale_fill_brewer(palette = "Set1")
+
+box1
+```
+In this box plot, we are illustrating the differences between Harvard and MIT's course completion percentage based on these four subjects: Computer Science, Government, Humanities, and STEM. The _Course Completion Percentage_ is based on the ratio of students that have completed the course based on the total number of students enrolled in that course.
+It is interesting to note that Harvard has more students enrolled in Humanities and has the highest median of 11 student ratio completing the course. We can interpret that Harvard is more focused on Humanities and Social Science course. The outlier in the Harvard STEM subject and the 1 ratio of a student taking a computer science course are also important to analyze. These outputs make sense as Harvard is known for their Social Sciences, and MIT is known for its engineering and physical science programs. It is possible that MIT has a lower median because STEM related courses can be difficult taken online or they could have smaller class sizes.
+
+
+```{r, echo=FALSE}
+point1 <- online_courses %>%  
+  ggplot() +
+  geom_point(aes(x=grade_above_zero, y=completed_ratio, color = institution), alpha = 0.6)+   labs(
+    title = "Percentage of Grades Above Zero versus Course Completion Ratio ", 
+    x = "Percentage of Grades Above Zero", 
+    y = "Course Completion Ratio", 
+    fill = "Institution") + 
+    scale_color_brewer(palette = "Set1")
+
+point1
+```
+This scatter plot depicts the relationship between the _Percentage of Grades Above Zero_ variable against the _Course Completion Percentage_ variable. The red scatter points represent Harvard and the blue scatter points represents MIT. The positive correlation coincides with the variables because it makes sense to have a high grade and pass a course. MIT has a more gradual positive increase becuase there are not as many students completing the course due to factors like difficulty of workload, or the method being taught online. This could also mean that MIT has a smaller ratio of students in each course given the size of the course itself. It is interesting the Harvard has a constant linear positive increase as the class sizes could be larger. They have a higher rate of students completing the course than MIT, who does have an increasing of percentage grades, but not course completion.
+
+
+```{r, echo=FALSE}
+point2 <- online_courses %>% ggplot() + geom_point(aes(x=ln_hours_certification_median, y=completed_ratio, color = institution), 
+             alpha = 0.6) + 
+  labs(
+    title = "Log of Median Hours for Certification versus Course Completion Ratio ", 
+    x = "Natural Log of Median Hours for Certification", 
+    y = "Course Completion Ratio", 
+    color = "Institution"
+  ) + 
+  scale_color_brewer(palette = "Set1")
+
+point2
+```
+The _Natural Log of Median Hours for Certification_ represents the amount of time it takes a student to recieve their certification at an institution. We took the natural log here to have a normal distribution. This variable is being compared against _Course Completion Percentage_. The relation of Harvard scatter points show that on average, their courses take about two to three median hours to complete certificiation and have high course completion percentage. Whereas, MIT has a lower completion rate due to possible smaller class sizes, and takes more hours to receive his or her certification.
+
+```{r, echo=FALSE}
+point3 <- online_courses %>% 
+  ggplot() + geom_point(aes(x=completed_ratio, y=bachelor_ratio, color = institution),       alpha = 0.6) + 
+  labs(
+    title = "Percentage of Students with a Bachelor Degree versus Course Completion Ratio", 
+    x = "Course Completion Ratio", 
+    y = "Percentage of Students with a Bachelor Degree", 
+    color = "Institution") + 
+  scale_color_brewer(palette = "Set1")
+
+point3
+```
+This third scatter plot depicts the percentage of students that have obtained their Bachelor's Degree and the ratio of course completion based on the number of students enrolled in the course. Again, we see that MIT has lower averages than Harvard. That does not mean that students are not completing the courses at a higher rate like Harvard, this could mean that there are smaller groups of students enrolling in the online programs at MIT. Harvard has about 80 percent of their classes, with a wide range of course completion ratios, who have a Bachelor's Degree.  
+
+```{r, echo=FALSE, out.width = 7}
+ggplot(data = online_courses)+
+  geom_point(aes(x = year, y = completed_ratio, color = institution), alpha = .6, size = 3)+
+  facet_wrap(~subject)+
+  labs(title = "Grade Level versus Course Completion Ratio per Subject", 
+    x = "Grade Level", 
+    y = "Course Completion Ratio", 
+    color = "Institution") + 
+  scale_color_brewer(palette = "Set1")
+```
+This figure shows four different scatter point boxes based on the four different subjects. Each subject is separated into the different grade levels. This is to show the completion ratio of each grade level. Again, it is interesting to point out that Harvard has a more condense population in the Humanities subject. Whereas, MIT has smaller student ratios across the Computer Science and STEM subjects. It is possible that MIT students are taking Government and Humanities courses for general education purposes.
+
+```{r, echo=FALSE}
+ggplot(online_courses)+
+  geom_col(aes(x = institution, y = ln_participants, fill = subject), position = "fill")+ 
+  scale_fill_brewer(palette = "Set1") + 
+  labs(title = "Institution versus Number of Participants Enrolled in a Subject", 
+    x = "Institution", 
+    y = "Natural Log number of Participants", 
+    color = "Institution") + 
+  scale_color_brewer(palette = "Set1")
+```
+This column box plot is showing the ln number of participants enrolled in each course with respect to the insitutions, Harvard and MIT. It is no suprise that about 50 percent of students enrolled at MIT are taking STEM related courses. The same can be said for Harvard with about 50 percent of students enrolled in Humanities, History, Design, Religion, and Education. The Government, Health, and Social Science course are about the same number of participants as it is required that everyone must take a Social Science as an elective or general education course. 
+
+
+## 5) Model selection
+
+## Linear Models
+```{r, echo=FALSE}
+lm_online_data <- online_courses %>% filter(!is.na(ln_completed_ratio)) %>% filter(!is.na(ln_hours_certification_median))
+lm_online_data
+```
+The rows with NA values for both _ln_completed_ratio_ and _ln_hours_certification_median_ were removed by this command, this will be useful for the creation of linear models. It is not possible to do an accurate prediction with a _Inf_ or _NA_ value, so this is the reason for the removal.
+
+__Separating the data into Train and Test__
+
+```{r, echo=FALSE}
+set.seed(123)
+train_control <-  trainControl(method = "cv", number = 10)
+inTrain <- createDataPartition(y = lm_online_data$ln_completed_ratio, p = 0.7, list = FALSE)
+train_set <- lm_online_data[inTrain , ]
+test_set <- lm_online_data[-inTrain , ]
+```
+This command separates 70% of the data into a training set, and other 30% into a testing set. This is done to avoid overfitting and it is preferable to perform the final model selection with an out of sample criterion.
+
+__Variables selection__
+
+```{r, echo=FALSE}
+#Separating the data
+sub_fit_certified <- regsubsets(ln_completed_ratio ~ institution + subject_stem + subject_cs + ln_hours_certification_median + year + age_median + bachelor_ratio + grade_above_zero , data = train_set)
+best_summary <- summary(sub_fit_certified)
+
+#Plots
+par(mfrow = c(1,2)) 
+plot(best_summary$cp, xlab = "Number of features", ylab = "Mallows Cp", main = "Optimal Number of Predictors: Cp", col = "dark blue", type = "b")
+plot(sub_fit_certified, scale = "Cp", main = "Best Variables for Modelling", col = "dark red")
+par(mfrow = c(1,2))
+plot(best_summary$adjr2, xlab = "Number of features", ylab = "Adjusted-R^2", main = "Optimal Number of Predictors", col = "dark blue", type = "b")
+plot(best_summary$bic, xlab = "Number of features", ylab = "BIC", main = "Optimal Number of Predictors", col = "dark red", type = "b")
+```
+Based on BIC, Mallows' CP, and the $Adjusted-R^2$, the select model will account for 4 or 5 predictors, more than this will result in overfitting and these variables will be: _instution, subject_cs, hours_certification_median, subject_stem, and grade_above_zero_. 
+ 
+ 
+# Modeling With other Techniques
+
+## Simple Linear Regression
+ 
+```{r,echo=FALSE}
+lm_train_courses <- lm(ln_completed_ratio ~ institution + subject_cs + subject_stem + ln_hours_certification_median + grade_above_zero, 
+                        data = train_set)
+summary(lm_train_courses)
+```
+ This __Ordinary Least Squares__ linear model contains the five variables that were previously selected by the previous methods. The Adjusted-$R^2$ is -.5995 and all predictors are statistically significant to the analysis; institutionMITx has a p-value of 0.06402, but as it was investigated on previously ploted box plots and scatter plots, it is an important predictor. _subject_cs_, _subject_stem_, _ln_hours_certification_median_, and _grade_above_zero_ are highly significant for the prediction of _ln_completed_ratio_.
+ 
+
+```{r, echo=FALSE}
+#Training Data
+lm_train_data <- predict(lm_train_courses)
+unlog_forecast_lm <- exp(lm_train_data)
+unlog_actual <- exp(train_set$ln_completed_ratio)
+
+ggplot(train_set, aes(x = unlog_forecast_lm, y = unlog_actual),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  
+  labs(title = "Forecast versus Actuals - Simple Linear Regression (Train Data)", 
+                                   x = "Forecast", 
+                                   y = "Actual")
+```
+This graph shows a comparison of the Actual and Forecast values when this linear model is used. It is noticeable that most of the points are concentrated around the line and that the actual value are not as different when compared to the forecast.
+
+
+```{r, echo=FALSE}
+lm_test <- predict(lm_train_courses, test_set)
+
+RMSE1 <- mean((lm_test - test_set$ln_completed_ratio)^2) 
+RMSE1
+unlog_forecast_lm1 <- exp(lm_test)
+unlog_actual1 <- exp(test_set$ln_completed_ratio)
+
+```
+The Root Mean Square Error of the out sample prediction was calculated by using the testing set by the mean of the following difference squared: $(\hat{y}-y)^2$, also know as RMSE, the result was 0.61882.
+
+```{r, echo=FALSE}
+ggplot(test_set, aes(x = unlog_forecast_lm1, y = unlog_actual1),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  labs(title = "Forecast versus Actuals - Simple Linear Regression (Test Data)",
+                                   x = "Forecast", 
+                                   y = "Actual") + scale_fill_brewer(palette = "Set1")
+```
+This graph shows a comparison of the Actual and Forecast values when this linear model is used, but this time only the data separated to the test set was used. It is noticeable that most of the points are concentrated around the line and that the actual value are not as different when compared to the forecast. The line closely matches (x,y) pairs such as (10,10) and (20,20), which indicates that this model is relevant for prediction.
+
+
+## LASSO Regression
+ 
+```{r, echo=FALSE}
+set.seed(981)
+#10 fold CV
+train_control <-  trainControl(method = "cv", number = 10)
+#Grid
+grid <- seq(-2,10,length=100)
+
+lasso_model <- train(ln_completed_ratio ~ institution + subject_cs + subject_stem + ln_hours_certification_median + grade_above_zero,
+                     data = train_set, 
+                     method = "glmnet", 
+                     trControl = train_control,
+                     metric =  "Rsquared",
+                     tune_Grid = expand.grid(alpha = 1, lambda = grid))
+lasso_model
+```
+This __Ordinary Least Squares with LASSO penalization__ linear model contains the five variables that were used to build the previous model.The best LASSO model has a $/alpha=0.1$ and $/lambda=0.013743260$. The in sample MSE value for this model is 0.6820237, while the $R^2$ is 0.625527. LASSO increases the variance explained for the predictive model, but it also has a small penalty increasing the bias.
+
+```{r,echo=FALSE}
+#Training Data
+lasso_train_data <- predict(lasso_model)
+unlog_forecast_lasso <- exp(lasso_train_data)
+unlog_actual <- exp(train_set$ln_completed_ratio)
+ggplot(train_set, aes(x = unlog_forecast_lasso, y = unlog_actual),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  labs(title = "Forecast versus Actuals - LASSO (Train Data)", x = "Forecast", y = "Actual")
+```
+This graph shows a comparison of the Actual and Forecast values when this linear model is used. It is noticeable that most of the points are concentrated around the line and that the actual value are not as different when compared to the forecast. This way, LASSO is also a candidate model for the final model selection process.
+
+
+```{r, echo=FALSE}
+lm_test_lasso_courses <- predict(lasso_model, test_set)
+RMSE2 <- mean((lm_test_lasso_courses - test_set$ln_completed_ratio)^2) 
+RMSE2
+
+#Test Data
+unlog_forecast_lasso <- exp(lm_test_lasso_courses)
+unlog_actual <- exp(test_set$ln_completed_ratio)
+ggplot(test_set, aes(x = unlog_forecast_lasso, y = unlog_actual),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  labs(title = "Forecast versus Actuals - LASSO (Test Data)", x = "Forecast", y = "Actual")
+```
+When the _test set_ was used for an out of sample prediction, it is clear that the regression line for the Forecast versus Actual values presents a bettet result when compared to the simple OLS model. Observation fall closer to the line and the Out of Sample RMSE is 0.62077, which does not represent a significant increase in bias, when compared to gain on explanatory power when the LASSO penalization was used.
+
+
+## Ridge Regression
+ 
+```{r, echo=FALSE}
+set.seed(981)
+ridge_model <- train(ln_completed_ratio ~ institution + subject_cs + subject_stem + ln_hours_certification_median + grade_above_zero,
+                     data = train_set, 
+                     method = "glmnet", 
+                     trControl = train_control,
+                     metric =  "Rsquared",
+                     tune_Grid = expand.grid(alpha = 0, lambda = grid))
+
+ridge_model
+```
+This __Ordinary Least Squares with Ridge penalization__ linear model contains the five variables that were used to build the previous model. The best Ridge model has a $/alpha=0.1$ and $/lambda=0.013743260$. The RMSE value for this model is 0.6820237, while the $R^2$ is 0.625527. It is important to point out that these values mirror the LASSO models' result.
+
+ 
+```{r, echo=FALSE}
+#Training Data
+ridge_train_data <- predict(ridge_model)
+unlog_forecast_ridge <- exp(ridge_train_data)
+unlog_actual <- exp(train_set$ln_completed_ratio)
+ggplot(train_set, aes(x = unlog_forecast_ridge, y = unlog_actual),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  labs(title = "Forecast versus Actuals - Ridge (Train Data)", x = "Forecast", y = "Actual")
+```
+This graph shows a comparison of the Actual and Forecast values when this linear model is used. There not a visible difference when compared to the result obtained by the LASSO model.
+ 
+ 
+```{r, echo=FALSE}
+lm_test_ridge_courses <- predict(ridge_model, test_set)
+RMSE3 <- mean((lm_test_ridge_courses - test_set$ln_completed_ratio)^2) 
+RMSE3
+
+#Test Data
+unlog_forecast_ridge <- exp(lm_test_ridge_courses)
+unlog_actual <- exp(test_set$ln_completed_ratio)
+ggplot(test_set, aes(x = unlog_forecast_ridge, y = unlog_actual),alpha = 0.6) + 
+  geom_point(color = "Blue") + 
+  geom_smooth(method = lm, color = "Red") +  labs(title = "Forecast versus Actuals - Ridge (Test Data)", x = "Forecast", y = "Actual")
+```
+When the _test set_ was used for taking Out of Sample measurements, the obtained RMSE was 0.6207, while the comparison between LASSO and Ridge penalizations did not present a substatial difference.
+
+| __Model__ | __Adjusted-$R^2$__ | __In Sample RMSE__ | __Out of Sample RMSE__ |
+|:----------|:---------------|:---------|:------------|
+|OLS|0.5995|0.6863|0.6188208|
+|OLS-LASSO|0.62553|0.6820|0.6207|
+|OLS-Ridge|0.62553|0.6820|0.6207|
+
+  The model that will be chosen to predict the course completion rate will be the linear regression with LASSO penalization. While analysing the criteria table, it is clear that it has substantial increase in the variance explained, but with a small penalization on the Out of Sample Root Mean Square Error. Furthermore, when comparing the Actual versus Forecast plots when using the test data, the OLS with LASSO penalization does a better job forecasting _completed_ratio_ than the the simple OLS model does. Lastly, there is not a substantial difference between the Ridge and LASSO models, so LASSO will be the chosen one as it applies the L-1 norm penalty.
+
+
+## 6) Conclusion
+
+  After understanding the main characteristic of these courses and investigating the characteristics that drove students to drop the course, it became clear that the variables that had the lagest explanatory power for prediction of __ln_completed_ratio__ were: __institution, subject_cs, subject_stem, ln_hours_certification_median__, __grade_above_zero__. In other words, there are is a trend of lower completion rate related to MIT, when compared to Harvard; a substantial difference on completion rate between computer science, stem related subjects, and hummanities related subjects ( _subject_gov_ , and _subject_hum_ ): both stem and computer science have on average lower completion rates; longer courses have a substantial lower completion rate; finally, courses with high incidence of zeros tend to have lower completion rates.
+  
+  Based on the analysis conducted, for the creation of new online courses, especially for those on the stem and computer science field, institutions need to have tools that will help the student to engage with the material on the beginning stages of the course. Furthermore, it is highly recommendable avoiding a robust course work. The predictive model that was created for evaluating percentage of people that will complete a course is a _OLS with the LASSO penalization_ and it demonstrated to be effective as noted on the Actual versus Forecast plot.
+
+
